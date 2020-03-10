@@ -1,0 +1,10 @@
+﻿@page
+@model AspNet_RazorWebPages.PartialViewSample2Model
+@{
+    ViewData["Title"] = "PartialViewSample2";
+}
+
+<h1>PartialViewSample2</h1>
+
+<partial name="_Zeit" />
+<a asp-page-handler="excel" class="btn btn-danger">Excel Export</a>

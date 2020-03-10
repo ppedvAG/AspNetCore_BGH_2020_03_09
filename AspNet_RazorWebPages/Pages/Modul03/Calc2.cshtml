@@ -1,0 +1,17 @@
+﻿@page
+@model AspNet_RazorWebPages.Calc2Model
+@{
+    ViewData["Title"] = "Calc2";
+}
+
+<h1>Calc2</h1>
+
+<form method="post">
+    <input name="eins" /> <br />
+    <input name="zwei" /> <br />
+
+    <input type="submit" asp-page-handler="plus" value="+" />
+    <input type="submit" asp-page-handler="minus" value="-" />
+    @Model.Ergebnis
+</form>
+

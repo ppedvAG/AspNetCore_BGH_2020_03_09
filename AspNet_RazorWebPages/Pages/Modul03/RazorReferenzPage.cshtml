@@ -1,0 +1,450 @@
+﻿@page
+@model AspNet_RazorWebPages.RazorReferenzPageModel
+@{
+    ViewData["Title"] = "RazorReferenzPage";
+}
+
+<h1>RazorSyntaxSamples</h1>
+
+@* 1.) Einfache Ausgabe *@
+<p>@Model.Username</p>
+@* Verwenden Sie ein zweites @-Symbol, um im Razor-Markup ein @-Symbol mit Escapezeichen zu versehen: *@
+<p>@@Model.Username</p>
+
+<a href="mailto:Support@contoso.com">Support@contoso.com</a>
+
+
+
+@* 2.)Implizite Razor-Ausdrücke - Implizite Razor-Ausdrücke beginnen mit @ gefolgt von C#-Code: *@
+<p>@DateTime.Now</p>
+<p>@DateTime.IsLeapYear(2016)</p>
+
+@* 2.1) Mit Ausnahme des C#-Schlüsselworts await dürfen implizite Ausdrücke keine Leerzeichen enthalten. Wird die C#-Anweisung eindeutig beendet, können auch Leerzeichen verwendet werden: *@
+@*<p>@await DoSomething("hello", "world")</p>*@
+
+
+
+@* 2.2) Implizite Ausdrücke dürfen keine C#-Generics enthalten, da die Zeichen innerhalb der Klammern (<>) als HTML-Tag interpretiert werden.
+    Der folgende Code ist ungültig: *@
+@*<p>@GenericMethod<int>()</p>*@
+@* Aufrufen von GenericMethoden müssen über Explizite Razor-Ausdrücke erfolgen *@
+
+
+
+@* 3.) Explizite Razor-Ausdrücke  - Explizite Razor-Ausdrücke bestehen aus einem @-Symbol mit ausgeglichener Klammer. *@
+<p>Last week this time: @(DateTime.Now - TimeSpan.FromDays(7))</p>
+@* Jeglicher Inhalt innerhalb der @()-Klammer wird ausgewertet und in der Ausgabe gerendert. *@
+
+
+@* 3.1 Die im vorherigen Abschnitt beschriebenen impliziten Ausdrücke dürfen grundsätzlich keine Leerzeichen enthalten.
+    Im folgenden Code wird eine Woche nicht von der aktuellen Uhrzeit abgezogen: *@
+<p>Last week: @DateTime.Now - TimeSpan.FromDays(7)</p>
+@* Der Code rendert den folgenden HTML-Code: -> <p>Last week: 7/7/2016 4:39:52 PM - TimeSpan.FromDays(7)</p> *@
+
+
+@* 3.2 Explizite Ausdrücke können zum Verketten von Text mit einem Ergebnis des Ausdrucks verwendet werden: *@
+
+@{
+    var joe = new Person("Joe", 33);
+
+
+
+
+}
+<p>Age@(joe.Age)</p>
+@* Ohne den expliziten Ausdruck wird <p>Age@joe.Age</p> als E-Mail-Adresse behandelt und <p>Age@joe.Age</p> gerendert.
+
+    <p>Age33</p> wird gerendert -> wenn es als expliziter Ausdruck geschrieben wird.
+*@
+
+
+
+@* 3.3 Explizite Ausdrücke und generische Methoden
+    Explizite Ausdrücke können zum Rendern der Ausgabe von generischen Methoden in .cshtml-Dateien verwendet werden.
+    Das folgende Markup zeigt, wie der weiter oben gezeigte Fehler behoben wird, der durch die Klammern einer
+    generischen C#-Funktion verursacht wurde.
+
+    Der Code wird als expliziter Ausdruck geschrieben: *@
+
+<p>@(GenericMethod<int>())</p>
+
+@functions{
+    public string GenericMethod<T>()
+    {
+        return "a type";
+    }
+}
+
+
+
+
+
+@* 4.0 Codieren von Ausdrücken *@
+
+@* C#-Ausdrücke, die als Zeichenfolge ausgewertet werden, werden HTML-codiert.
+    C#-Ausdrücke, die als IHtmlContent ausgewertet werden, werden direkt durch IHtmlContent.WriteTo gerendert.
+    C#-Ausdrücke, die nicht als IHtmlContent ausgewertet werden, werden durch ToString in eine Zeichenfolge konvertiert und vor dem Rendern codiert. *@
+
+@* 4.1 Beispiel: *@
+@("<span>Hello World</span>")
+@* &lt;span&gt;Hello World&lt;/span&gt; *@
+
+
+@* 4.2 HtmlHelper.Raw
+    Die Ausgabe HtmlHelper.Raw wird nicht codiert, sondern als HTML-Markup gerendert. *@
+
+@Html.Raw("<span>Hello World</span>")
+
+@* Warnung
+    Die Verwendung von HtmlHelper.Raw bei einer nicht bereinigten Benutzereingabe stellt ein Sicherheitsrisiko dar.
+    Benutzereingaben können schädlichen JavaScript-Code oder andere Sicherheitsrisiken enthalten.
+    Das Bereinigen von Benutzereingaben ist schwierig.
+    ermeiden Sie daher die Verwendung von HtmlHelper.Raw bei Benutzereingaben. *@
+
+@* 5.0 Razor-Codeblöcke *@
+@{
+    var quote = "The future depends on what you do today. - Mahatma Gandhi";
+}
+
+<p>@quote</p>
+
+@{
+    quote = "Hate cannot drive out hate, only love can do that. - Martin Luther King, Jr.";
+}
+
+<p>@quote</p>
+@* Der Code rendert den folgenden HTML-Code: *@
+@*
+    <p>The future depends on what you do today. - Mahatma Gandhi</p>
+    <p>Hate cannot drive out hate, only love can do that. - Martin Luther King, Jr.</p>
+*@
+
+
+@* 5.1Deklarieren Sie in Codeblöcken lokale Funktionen mit Markup als Vorlagenmethoden:
+*@
+
+@{
+    void RenderName(string name)
+    {
+        <p>Name: <strong>@name</strong></p>
+    }
+
+    RenderName("Mahatma Gandhi");
+    RenderName("Martin Luther King, Jr.");
+}
+
+@* Der Code rendert den folgenden HTML-Code:
+    <p>Name: <strong>Mahatma Gandhi</strong></p>
+    <p>Name: <strong>Martin Luther King, Jr.</strong></p>
+*@
+
+@* 6.0 Implizite Übergänge
+    Die Standardsprache in einem Codeblock ist C#. Die Razor Page kann jedoch zurück zu HTML wechseln:
+*@
+
+@{
+    var inCSharp = true;
+    <p>Now in HTML, was in C# @inCSharp</p>
+}
+
+@* 6.1 Durch Trennzeichen getrennte explizite Übergänge
+    Soll ein Unterabschnitt eines Codeblocks in HTML gerendert werden,
+    umschließen Sie die Zeichen, die gerendert werden sollen, mit dem Razor-Tag <text>:
+*@
+
+
+
+@for (int y = 0; y < Model.People.Length; y++)
+{
+    var person = Model.People[y];
+    <text>Name: @person.Name</text>
+}
+
+
+@* Verwenden Sie diese Methode zum Rendern von HTML-Code, der nicht von einem HTML-Tag umschlossen ist. Ohne HTML- oder Razor-Tag tritt ein Razor-Laufzeitfehler auf. *@
+
+@* Das <text>-Tag ist nützlich, wenn Sie beim Rendern von Inhalt Leerzeichen steuern möchten:
+    Nur der Inhalt zwischen den <text>-Tags wird gerendert.
+    In der HTML-Ausgabe werden keine Leerzeichen vor oder nach dem <text>-Tag angezeigt.*@
+
+
+
+@* 6.2 Explizite Zeilenübergänge *@
+@* Verwenden Sie die @:-Syntax, um den Rest einer kompletten Zeile als HTML-Code in einem Codeblock zu rendern: *@
+
+@for (var x = 0; x < Model.People.Length; x++)
+{
+    var person = Model.People[x];
+    @:Name: @person.Name
+}
+
+@*  Ohne das @:-Symbol im Code wird ein Razor-Laufzeitfehler erzeugt.
+
+    Zusätzliche @-Zeichen in einer Razor-Datei können zu Compilerfehlern bei späteren Anweisungen im Block führen.
+    Diese Compilerfehler können dann schwer nachvollziehbar sein, da der tatsächliche vor dem gemeldeten Fehler auftritt.
+    Dieser Fehler tritt häufig auf, wenn mehrere implizite/explizite Ausdrücke in einem einzigen Codeblock kombiniert werden. *@
+
+
+@* 7.0 Steuerungsstrukturen *@
+
+@* 7.1 Die Bedingungen @if, else if, else und @switch *@
+
+@* 7.1.1 if steuert, wann der Code ausgeführt wird: *@
+
+@functions {
+    private int value = 2;
+}
+@if (value % 2 == 0)
+{
+    <p>The value was even.</p>
+}
+
+@* 7.1.2 else und else if erfordern kein @-Symbol: *@
+@if (value % 2 == 0)
+{
+    <p>The value was even.</p>
+}
+else if (value >= 1337)
+{
+    <p>The value is large.</p>
+}
+else
+{
+    <p>The value is odd and small.</p>
+}
+
+@*  7.1.3 switch-Anweisung *@
+@switch (value)
+{
+    case 1:
+        <p>The value is 1!</p>
+        break;
+    case 1337:
+        <p>Your number is 1337!</p>
+        break;
+    default:
+        <p>Your number wasn't 1 or 1337.</p>
+        break;
+}
+
+@* 7.2) Schleifen @for, @foreach, @while und @do while *@
+@* Auf Vorlagen basierender HTML-Code kann mit Anweisungen zur Steuerung von Schleifen gerendert werden. So rendern Sie eine Liste mit Personen. *@
+
+@{
+    var people = new Person[]
+    {
+          new Person("Weston", 33),
+          new Person("Johnathon", 41),
+            };
+}
+
+@* 7.2.1    Die folgenden Schleifenanweisungen werden unterstützt: *@
+@* @for *@
+@for (var a = 0; a < people.Length; a++)
+{
+    var person = people[a];
+    <p>Name: @person.Name</p>
+    <p>Age: @person.Age</p>
+}
+
+@* 7.2.2 @foreach *@
+@foreach (var person in people)
+{
+    <p>Name: @person.Name</p>
+    <p>Age: @person.Age</p>
+}
+
+@* 7.2.3 @while *@
+@{var i = 0; }
+@while (i < people.Length)
+{
+    var person = people[i];
+    <p>Name: @person.Name</p>
+    <p>Age: @person.Age</p>
+
+    i++;
+}
+
+@* 7.2.4 @do while *@
+
+@{i = 0; }
+@do
+{
+    var person = people[i];
+    <p>Name: @person.Name</p>
+    <p>Age: @person.Age</p>
+
+    i++;
+} while (i < people.Length);
+
+
+
+@* 7.3 Verbund @using
+
+    In C# kann mit einer using-Anweisung sichergestellt werden, dass ein Objekt freigegeben wurde.
+    In Razor wird derselbe Mechanismus verwendet, um HTML-Hilfsprogramme zu erstellen, die zusätzliche Inhalte enthalten.
+    Im folgenden Code wird ein <form>-Tag mit der @using-Anweisung durch HTML-Hilfsprogramme gerendert:
+*@
+
+@using (Html.BeginForm())
+{
+    <div>
+        Email: <input type="email" id="Email" value="">
+        <button>Register</button>
+    </div>
+}
+
+@* 7.4 @try, catch, finally
+
+*@
+@try
+{
+    throw new InvalidOperationException("You did something invalid.");
+}
+catch (Exception ex)
+{
+    <p>The exception message: @ex.Message</p>
+}
+finally
+{
+    <p>The finally statement.</p>
+}
+
+@* 7.5 @lock *@
+@lock (Model.Username)
+{
+    // Do critical section work
+}
+
+@* 7.6 Kommentare *@
+
+@{
+    /* C# comment */
+    // Another C# comment
+}
+<!-- HTML comment -->
+@* Razor-Kommentare werden vom Server entfernt, bevor die Webseite gerendert wird *@
+@*
+    @{
+        /* C# comment */
+        // Another C# comment
+    }
+    <!-- HTML comment -->
+*@
+
+
+
+
+@* 8.0 Anweisungen
+    Razor-Anweisungen werden durch implizite Ausdrücke mit reservierten Schlüsselwörtern nach dem @-Symbol dargestellt.
+    Eine Anweisung ändert in der Regel die Analyse einer Ansicht oder aktiviert unterschiedliche Funktionen.
+
+    Beispiel:
+*@
+
+@{
+    quote = "Getting old ain't for wimps! - Anonymous";
+}
+
+<div>Quote of the Day: @quote</div>
+
+@* 8.1 @attribute*@
+@* ie @attribute-Anweisung fügt das angegebene Attribut zu der Klasse der generierten Seite oder Ansicht hinzu.
+    Im folgenden Beispiel wird das [Authorize]-Attribut hinzugefügt: *@
+
+@*@attribute [Authorize]*@
+
+
+@* 8.2 @functions *@
+@* Die @functions-Anweisung ermöglicht das Hinzufügen von C#-Membern (Feldern, Eigenschaften und Methoden) zur generierten Klasse: *@
+
+@functions {
+    // C# members (fields, properties, and methods)
+}
+@* Verwenden Sie in Razor-Komponenten @code über @functions, um C#-Member hinzuzufügen.
+
+    @code = RazorKomponenten -> Blazor?*@
+@functions {
+    public string GetHello()
+    {
+        return "Hello";
+    }
+}
+
+<div>From method: @GetHello()</div>
+
+
+@*@functions-Methoden dienen als Vorlagenmethoden, wenn sie Markup aufweisen:*@
+
+@{
+    RenderName("Mahatma Gandhi");
+    RenderName("Martin Luther King, Jr.");
+}
+
+@functions {
+    private void RenderName(string name)
+    {
+        <p>Name: <strong>@name</strong></p>
+    }
+}
+
+
+
+@* 8.3 @implements
+    Die @implements-Anweisung implementiert eine Schnittstelle für die generierte Klasse.
+    Im folgenden Beispiel wird System.IDisposable implementiert, sodass die Dispose-Methode aufgerufen werden kann:
+*@
+
+@implements IDisposable
+
+<h1>Example</h1>
+
+@functions {
+    private bool _isDisposed;
+    public void Dispose() => _isDisposed = true;
+}
+
+
+@* 8.4 @inject
+    Mit der @inject-Anweisung kann die Razor Page einen Dienst aus dem Dienstcontainer in eine Ansicht einfügen.
+    Weitere Informationen finden Sie unter Dependency Injection in Ansichten.
+*@
+
+@* 8.5 @model
+
+    Die @model-Anweisung gibt den Typ des Modells an, das an eine Ansicht oder Seite übergeben wird:
+
+*@
+
+@* 8.5 @namespace
+
+
+*@
+
+@* 8.6 @page
+    Die @page-Anweisung hat abhängig vom Typ der Datei, in der Sie verwendet wird, unterschiedliche Auswirkungen.
+    Für die Anweisung gilt:
+
+    -   In einer CSHTML-Datei gibt sie an, dass die Datei eine Razor-Seite ist. Weitere Informationen finden Sie unter Benutzerdefinierte Routen und Einführung in Razor Pages in ASP.NET Core.
+    -   Gibt an, dass eine Razor-Komponente Anforderungen direkt verarbeiten soll. Weitere Informationen finden Sie unter ASP.net Core Blazor Routing.
+*@
+
+@* 8.7 @section
+
+    Dieses Szenario gilt nur für MVC-Ansichten und Razor Pages (.cshtml).
+    Die @section-Anweisung wird in Verbindung mit MVC- und Razor Pages-Layouts verwendet, damit Ansichten Seiten Inhalte in verschiedenen Teilen
+    der HTML-Seite rendern können. Weitere Informationen finden Sie unter Layout in ASP.NET Core.
+*@
+
+@* 8.8 @using
+
+    Die @using-Anweisung fügt die C#-Anweisung usingder generierten Ansicht hinzu:
+*@
+
+@using System.IO
+@{
+    var dir = Directory.GetCurrentDirectory();
+}
+<p>@dir</p>
+
+

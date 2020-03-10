@@ -1,0 +1,12 @@
+﻿@page
+@model AspNet_RazorWebPages.PictureUploadSampleModel
+@{
+    ViewData["Title"] = "PictureUploadSample";
+}
+
+<h1>PictureUploadSample</h1>
+
+<form enctype="multipart/form-data" method="post">
+    <input type="file" name="datei" dirname="C:\" />
+    <input type="submit" />
+</form>

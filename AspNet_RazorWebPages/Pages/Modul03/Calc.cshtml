@@ -1,0 +1,15 @@
+﻿@page "/calc/{handler?}"
+@model AspNet_RazorWebPages.Modul03.CalcModel
+@{
+    ViewData["Title"] = "Calc";
+}
+
+<h1>Calc</h1>
+
+<form method="post">
+    <input name="eins" /> <br />
+    <input name="zwei" /> <br />
+    <button type="submit">Add</button>
+    @Model.Ergebnis
+</form>
+
