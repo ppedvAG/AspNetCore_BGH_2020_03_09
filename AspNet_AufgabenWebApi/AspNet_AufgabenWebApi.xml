@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AspNet_AufgabenWebApi</name>
+    </assembly>
+    <members>
+        <member name="M:AspNet_AufgabenWebApi.Controllers.AufgabensController.GetAufgaben">
+            <summary>
+            Rock Me Amadeus - >  GET: api/Aufgabens
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AspNet_AufgabenWebApi.Controllers.AufgabensController.GetAufgaben(System.Int32)">
+            <summary>
+            HAllejulia 
+            </summary>
+            <param name="id">Id der Aufgabe wird übergeben</param>
+            <returns>Du bekommst einen Task zurück</returns>
+        </member>
+        <member name="M:AspNet_AufgabenWebApi.Controllers.WeatherForecastController.Get">
+            <summary>
+            Hier kann ich meinen Senf dazu geben
+            </summary>
+        </member>
+        <member name="M:AspNet_AufgabenWebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services.
+            </summary>
+            <param name="services">The services.</param>
+        </member>
+    </members>
+</doc>

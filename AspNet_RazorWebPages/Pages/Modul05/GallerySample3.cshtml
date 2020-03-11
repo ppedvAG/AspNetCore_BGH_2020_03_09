@@ -1,0 +1,21 @@
+﻿@page
+@model AspNet_RazorWebPages.GallerySample3Model
+@{
+    ViewData["Title"] = "GallerySample3";
+}
+
+<h1>GallerySample3</h1>
+
+<p>Sample 1:</p>
+<div class="row">
+    @foreach (var item in Model.Bilder)
+    {
+        <div class="col-12 col-md-4">
+            @*<img class="img-fluid" src="/images/@System.IO.Path.GetFileName(item)" />*@
+            <a href="/images/@System.IO.Path.GetFileName(item)">
+                @*<img class="img-fluid" src="/imagegen?img=@System.IO.Path.GetFileName(item)" />*@
+                <img class="img-fluid" src="/imagegen?img=@System.IO.Path.GetFileName(item)" />
+            </a>
+        </div>
+    }
+</div>

@@ -1,0 +1,1 @@
+﻿https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/supported-platforms

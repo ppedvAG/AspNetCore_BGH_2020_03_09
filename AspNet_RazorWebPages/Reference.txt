@@ -1,0 +1,13 @@
+﻿https://docs.microsoft.com/de-de/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio
+
+
+Authentifizierung -> Claim Info
+https://docs.microsoft.com/de-de/aspnet/core/security/authorization/claims?view=aspnetcore-3.1
+
+
+Anmeldung an Facebook / Google etc -> und externe Anbieter
+https://docs.microsoft.com/de-de/aspnet/core/security/authentication/social/?view=aspnetcore-3.1&tabs=visual-studio
+
+
+JWT Bear Tokens
+https://devblogs.microsoft.com/aspnet/jwt-validation-and-authorization-in-asp-net-core/

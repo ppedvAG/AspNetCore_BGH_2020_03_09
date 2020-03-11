@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet_RazorWebPages", "AspNet_RazorWebPages\AspNet_RazorWebPages.csproj", "{B09B8507-4E16-4076-A46D-916EC85C0285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNet_RazorWebPages", "AspNet_RazorWebPages\AspNet_RazorWebPages.csproj", "{B09B8507-4E16-4076-A46D-916EC85C0285}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNet_MVCApp", "AspNet_MVCApp\AspNet_MVCApp.csproj", "{80D835E9-86E5-413D-B9F0-EAAE43280C64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServer", "GrpcServer\GrpcServer.csproj", "{676E3EC2-F543-4028-AF96-CC18E4298F50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcClient", "GrpcClient\GrpcClient.csproj", "{B7F901AD-C8B2-49F5-B477-BF565F75C6C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChat", "SignalRChat\SignalRChat.csproj", "{78B2CDE0-2320-49EC-BAED-3D23574EB2CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNet_AufgabenWebApi", "AspNet_AufgabenWebApi\AspNet_AufgabenWebApi.csproj", "{6A34D690-69CE-4ACC-8D57-A00D008CFAC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{B09B8507-4E16-4076-A46D-916EC85C0285}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B09B8507-4E16-4076-A46D-916EC85C0285}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B09B8507-4E16-4076-A46D-916EC85C0285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D835E9-86E5-413D-B9F0-EAAE43280C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D835E9-86E5-413D-B9F0-EAAE43280C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D835E9-86E5-413D-B9F0-EAAE43280C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D835E9-86E5-413D-B9F0-EAAE43280C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{676E3EC2-F543-4028-AF96-CC18E4298F50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{676E3EC2-F543-4028-AF96-CC18E4298F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{676E3EC2-F543-4028-AF96-CC18E4298F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{676E3EC2-F543-4028-AF96-CC18E4298F50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7F901AD-C8B2-49F5-B477-BF565F75C6C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7F901AD-C8B2-49F5-B477-BF565F75C6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7F901AD-C8B2-49F5-B477-BF565F75C6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7F901AD-C8B2-49F5-B477-BF565F75C6C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78B2CDE0-2320-49EC-BAED-3D23574EB2CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B2CDE0-2320-49EC-BAED-3D23574EB2CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B2CDE0-2320-49EC-BAED-3D23574EB2CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B2CDE0-2320-49EC-BAED-3D23574EB2CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A34D690-69CE-4ACC-8D57-A00D008CFAC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A34D690-69CE-4ACC-8D57-A00D008CFAC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A34D690-69CE-4ACC-8D57-A00D008CFAC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A34D690-69CE-4ACC-8D57-A00D008CFAC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

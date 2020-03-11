@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using AspNet_RazorWebPages.Pages.Modul05;
+using Microsoft.EntityFrameworkCore;
+using AspNet_RazorWebPages.Data;
 
 namespace AspNet_RazorWebPages
 {
@@ -24,7 +28,17 @@ namespace AspNet_RazorWebPages
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            
+
+            services.AddControllers();
+
+            // Session regestrieren
+            services.AddSession();
+
+            services.AddDbContext<AufgabenContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AufgabenContext")));
+
+            services.AddDbContext<AufgabenContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AufgabenContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,14 +58,22 @@ namespace AspNet_RazorWebPages
             AppDomain.CurrentDomain.SetData("BildVerzeichnis", env.WebRootPath);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
+            // Verwenden des Session Features
+            app.UseSession();
             app.UseAuthorization();
+            app.UseAuthentication();
+
+            app.MapWhen(context => context.Request.Path.ToString().Contains("imagegen"), subapp =>
+            {
+                subapp.UseThumbNailGen();
+            });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
